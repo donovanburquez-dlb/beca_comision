@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;        // Clase para definir rutas
 Route::get('/', function () {
     // Retorna la vista 'welcome'
     // Laravel busca: resources/views/welcome.blade.php
-    return view('welcome');
+    return view('Hola, este es mi primer cambio en Laravel');
 });
 
 // ============================================
