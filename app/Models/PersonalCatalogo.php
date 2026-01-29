@@ -29,10 +29,10 @@ class PersonalCatalogo extends Model
      * Campos que se pueden llenar masivamente
      */
     protected $fillable = [
-        'rfc', 'curp', 'apellido', 'nombres', 'sexo', 'edad',
-        'tel_particular', 'correo', 'domicilio',
-        'cct', 'centro_trabajo', 'nivel', 'localidad', 'municipio',
-        'turno', 'asignatura', 'horas', 'clave_plaza'
+            'rfc', 'curp', 'apellido_pat', 'apellido_mat', 'nombres', 'sexo', 'edad',
+            'tel_particular', 'correo', 'domicilio',
+            'cct', 'centro_trabajo', 'nivel', 'localidad', 'municipio',
+            'turno', 'asignatura', 'horas', 'clave_plaza'
     ];
 
     /**
@@ -48,7 +48,7 @@ class PersonalCatalogo extends Model
      */
     public function getNombreCompletoAttribute()
     {
-        return trim("{$this->nombres} {$this->apellido}");
+        return trim("{$this->nombres} {$this->apellido_pat} {$this->apellido_mat}");
     }
 
     /**
@@ -72,9 +72,10 @@ class PersonalCatalogo extends Model
 
         return $query->where(function($q) use ($texto) {
             $q->where('rfc', 'LIKE', "%{$texto}%")
-              ->orWhere('curp', 'LIKE', "%{$texto}%")
-              ->orWhere('nombres', 'LIKE', "%{$texto}%")
-              ->orWhere('apellido', 'LIKE', "%{$texto}%");
+            ->orWhere('curp', 'LIKE', "%{$texto}%")
+            ->orWhere('nombres', 'LIKE', "%{$texto}%")
+            ->orWhere('apellido_pat', 'LIKE', "%{$texto}%")
+            ->orWhere('apellido_mat', 'LIKE', "%{$texto}%");
         });
     }
 
@@ -86,7 +87,8 @@ class PersonalCatalogo extends Model
         return [
             'rfc' => $this->rfc,
             'curp' => $this->curp,
-            'apellido' => $this->apellido,
+            'apellido_pat' => $this->apellido_pat,
+            'apellido_mat' => $this->apellido_mat,
             'nombres' => $this->nombres,
             'sexo' => $this->sexo,
             'edad' => $this->edad,

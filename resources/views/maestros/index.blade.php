@@ -28,15 +28,15 @@
 
     <!-- CONTENIDO DEL CRUD -->
     <p>Listado de maestros</p>
-</x-app-layout>
+
 
 
 {{--
     @section define una sección que se insertará en el layout
     'content' es el nombre de la sección
     En layouts/app.blade.php hay un @yield('content') donde se insertará esto
+
 --}}
-@section('content')
 
 {{-- Container: Centra y limita el ancho del contenido --}}
 <div class="container mx-auto px-4 py-8">
@@ -369,5 +369,5 @@
     </div>
 </div>
 
-@endsection
+</x-app-layout>
 {{-- @endsection cierra la sección 'content' --}}
