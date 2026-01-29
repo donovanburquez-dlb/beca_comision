@@ -18,7 +18,18 @@
     'layouts.app' busca el archivo: resources/views/layouts/app.blade.php
     Esa vista tiene la estructura HTML base (head, body, nav, etc.)
 --}}
-@extends('layouts.app')
+{{-- @extends('layouts.app')--}}
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Maestros
+        </h2>
+    </x-slot>
+
+    <!-- CONTENIDO DEL CRUD -->
+    <p>Listado de maestros</p>
+</x-app-layout>
+
 
 {{--
     @section define una sección que se insertará en el layout

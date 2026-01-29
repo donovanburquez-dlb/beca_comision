@@ -17,6 +17,7 @@
 // IMPORTAR CLASES NECESARIAS
 // ============================================
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MaestroController;  // Nuestro controlador de maestros
 use Illuminate\Support\Facades\Route;        // Clase para definir rutas
 
@@ -67,6 +68,17 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
     // ->name('dashboard') le da un nombre a la ruta
     // Así podemos usarla como: route('dashboard')
+
+    // PERFIL DE USUARIO (Breeze)
+Route::get('/profile', [ProfileController::class, 'edit'])
+    ->name('profile.edit');
+
+Route::patch('/profile', [ProfileController::class, 'update'])
+    ->name('profile.update');
+
+Route::delete('/profile', [ProfileController::class, 'destroy'])
+    ->name('profile.destroy');
+
 
     // ============================================
     // RUTAS DE MAESTROS (CRUD Completo)
