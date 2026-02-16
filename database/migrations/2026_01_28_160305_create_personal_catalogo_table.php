@@ -40,7 +40,8 @@ return new class extends Migration
             // ============================================
             
             // Apellidos del empleado
-            $table->string('apellido', 100);
+            $table->string('apellido_paterno', 50);
+            $table->string('apellido_materno', 50);
             
             // Nombres del empleado
             $table->string('nombres', 100);

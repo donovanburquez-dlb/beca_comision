@@ -310,8 +310,9 @@ class MaestroController extends Controller
                 'unique:maestros'
             ],
             
-            // Apellido
-            'apellido' => 'required|string|max:100',
+            // Apellidos
+            'apellido_paterno' => 'required|string|max:50',
+            'apellido_materno' => 'required|string|max:50',
             
             // Nombres
             'nombres' => 'required|string|max:100',

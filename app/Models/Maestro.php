@@ -63,7 +63,8 @@ class Maestro extends Model
         // Datos personales
         'rfc',                    // RFC del maestro
         'curp',                   // CURP del maestro
-        'apellido',               // Apellidos
+        'apellido_paterno',       // Apellido_paterno
+        'apellido_materno',       // Apellido_materno
         'nombres',                // Nombres
         'sexo',                   // M o F
         'edad',                   // Edad en años
@@ -257,7 +258,7 @@ class Maestro extends Model
     {
         // Concatenamos nombres + apellido
         // trim() quita espacios al inicio y final
-        return trim("{$this->nombres} {$this->apellido}");
+        return trim("{$this->nombres} {$this->apellido_paterno} {$this->apellido_materno}");
     }
 
     /**
@@ -393,7 +394,8 @@ class Maestro extends Model
             $q->where('rfc', 'LIKE', "%{$texto}%")           // Busca en RFC
               ->orWhere('curp', 'LIKE', "%{$texto}%")        // O en CURP
               ->orWhere('nombres', 'LIKE', "%{$texto}%")     // O en nombres
-              ->orWhere('apellido', 'LIKE', "%{$texto}%");   // O en apellido
+              ->orWhere('apellido_paterno', 'LIKE', "%{$texto}%")   // O en apellido_paterno
+              ->orWhere('apellido_materno', 'LIKE', "%{$texto}%");   // O en apellido_materno
         });
         
         // LIKE "%texto%" busca el texto en cualquier parte del campo

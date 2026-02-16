@@ -46,7 +46,8 @@ return new class extends Migration
             
             // Apellidos del maestro
             // Ejemplo: 'BLANCAS VARGAS'
-            $table->string('apellido', 100);
+            $table->string('apellido_paterno', 50);
+            $table->string('apellido_materno', 50);
             
             // Nombres del maestro
             // Ejemplo: 'MARIA ELVIRA'

@@ -86,18 +86,34 @@
                         @enderror
                     </div>
 
-                    {{-- Apellidos --}}
+                    {{-- Apellido Paterno --}}
                     <div>
-                        <label for="apellido" class="block text-sm font-medium text-gray-700 mb-1">
-                            Apellido(s) *
+                        <label for="apellido_paterno" class="block text-sm font-medium text-gray-700 mb-1">
+                            Apellido Paterno *
                         </label>
                         <input type="text" 
-                               id="apellido" 
-                               name="apellido" 
-                               value="{{ old('apellido', $maestro->apellido) }}"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('apellido') border-red-500 @enderror"
-                               required>
-                        @error('apellido')
+                            id="apellido_paterno" 
+                            name="apellido_paterno" 
+                            value="{{ old('apellido_paterno', $maestro->apellido_paterno) }}"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('apellido_paterno') border-red-500 @enderror"
+                            required>
+                        @error('apellido_paterno')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Apellido Materno --}}
+                    <div>
+                        <label for="apellido_materno" class="block text-sm font-medium text-gray-700 mb-1">
+                            Apellido Materno *
+                        </label>
+                        <input type="text" 
+                            id="apellido_materno" 
+                            name="apellido_materno" 
+                            value="{{ old('apellido_materno', $maestro->apellido_materno) }}"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('apellido_materno') border-red-500 @enderror"
+                            required>
+                        @error('apellido_materno')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>

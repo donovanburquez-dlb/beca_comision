@@ -75,8 +75,12 @@
                             <p class="font-semibold">{{ $maestro->curp }}</p>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-500">Apellido(s)</p>
-                            <p class="font-semibold">{{ $maestro->apellido }}</p>
+                            <p class="text-sm text-gray-500">Apellido Paterno</p>
+                            <p class="font-semibold">{{ $maestro->apellido_paterno }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Apellido Materno</p>
+                            <p class="font-semibold">{{ $maestro->apellido_materno }}</p>
                         </div>
                         <div>
                             <p class="text-sm text-gray-500">Nombre(s)</p>
