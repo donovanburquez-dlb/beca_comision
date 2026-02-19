@@ -35,11 +35,8 @@ Route::middleware(['auth'])->group(function () {
     // Ver lista y detalle - todos los roles
     Route::get('/maestros', [MaestroController::class, 'index'])
         ->name('maestros.index');
-
-    Route::get('/maestros/{maestro}', [MaestroController::class, 'show'])
-        ->name('maestros.show');
-
-    // Crear - Solo Administrador, Coordinador y Capturista
+    
+        // Crear - Solo Administrador, Coordinador y Capturista
     Route::get('/maestros/create', [MaestroController::class, 'create'])
         ->middleware('rol:Administrador,Coordinador,Capturista')
         ->name('maestros.create');
@@ -61,6 +58,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/maestros/{maestro}', [MaestroController::class, 'destroy'])
         ->middleware('rol:Administrador')
         ->name('maestros.destroy');
+
+    // 🔹 SHOW (AL FINAL SIEMPRE)
+    Route::get('/maestros/{maestro}', [MaestroController::class, 'show'])
+        ->name('maestros.show');
 
     // ============================================
     // RUTAS DE USUARIOS

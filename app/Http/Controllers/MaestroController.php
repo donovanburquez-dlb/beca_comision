@@ -96,7 +96,8 @@ class MaestroController extends Controller
         // Ordenamos por apellido de forma ascendente (A-Z)
         // orderBy('campo', 'dirección')
         // Dirección puede ser: 'asc' (ascendente) o 'desc' (descendente)
-        $query->orderBy('apellido', 'asc');
+        $query->orderBy('apellido_paterno', 'asc');
+        $query->orderBy('apellido_materno', 'asc');
         
         // Agregamos ordenamiento secundario por nombres
         // Si dos personas tienen el mismo apellido, se ordenan por nombre
@@ -529,7 +530,8 @@ class MaestroController extends Controller
             ],
             
             // ... (las mismas validaciones que en store)
-            'apellido' => 'required|string|max:100',
+            'apellido_paterno' => 'required|string|max:50',
+            'apellido_materno' => 'required|string|max:50',
             'nombres' => 'required|string|max:100',
             'sexo' => 'nullable|in:M,F',
             'edad' => 'nullable|integer|min:18|max:100',

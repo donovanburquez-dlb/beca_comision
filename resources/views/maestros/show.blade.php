@@ -11,9 +11,7 @@
     - $maestro: Objeto con todos los datos del maestro
 --}}
 
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
 <div class="container mx-auto px-4 py-8">
     
     {{-- ============================================
@@ -325,4 +323,4 @@
     </div>
 
 </div>
-@endsection
+</x-app-layout>
