@@ -499,4 +499,13 @@ class Maestro extends Model
         // round redondea a 2 decimales
         return round($promedio, 2);
     }
+
+    /**
+     * RELACIÓN: Un maestro puede tener uno o varios sustitutos cubriendo su plaza
+     */
+    public function sustitutos()
+    {
+        return $this->hasMany(Sustituto::class);
+    }
+
 }

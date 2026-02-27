@@ -260,6 +260,47 @@
                 </div>
             </div>
 
+            {{-- ============================================
+                CARD: SUSTITUTOS ASIGNADOS
+                ============================================ --}}
+            <div class="bg-white shadow-md rounded-lg overflow-hidden mt-6">
+                <div class="bg-teal-600 text-white px-6 py-3 flex justify-between items-center">
+                    <h2 class="text-lg font-bold">🔄 Sustitutos Asignados</h2>
+                    
+                    {{-- Botón Activado para abrir el Modal --}}
+                    <button onclick="document.getElementById('modalSustituto').classList.remove('hidden')" 
+                            class="bg-white text-teal-700 px-4 py-1.5 rounded-md text-sm font-bold hover:bg-teal-50 shadow transition">
+                        + Asignar Sustituto
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    @if($maestro->sustitutos && $maestro->sustitutos->count() > 0)
+                        <div class="space-y-4">
+                            @foreach($maestro->sustitutos as $sustituto)
+                                <div class="border-l-4 border-teal-500 pl-4 py-2 bg-gray-50 rounded-r-md">
+                                    <p class="font-bold text-gray-800 text-lg">{{ $sustituto->nombre_completo }}</p>
+                                    <div class="flex gap-4 mt-1 text-sm text-gray-600">
+                                        <p>📅 <strong>Del:</strong> {{ $sustituto->fecha_inicio->format('d/m/Y') }} <strong>Al:</strong> {{ $sustituto->fecha_termino->format('d/m/Y') }}</p>
+                                        <p>📌 <strong>Estatus:</strong> 
+                                            <span class="{{ $sustituto->estatus == 'ACTIVO' ? 'text-green-600' : 'text-gray-500' }} font-bold">
+                                                {{ $sustituto->estatus }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        {{-- TEXTO CORREGIDO: text-gray-800 para que resalte sobre el fondo blanco --}}
+                        <div class="text-center py-6 text-gray-800 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                            <p class="font-medium text-lg">No hay sustitutos asignados a este maestro actualmente.</p>
+                            <p class="text-sm text-gray-500 mt-1">Haz clic en "+ Asignar Sustituto" para registrar uno nuevo.</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
             {{-- CARD: CALIFICACIONES (si existen) --}}
             @if($maestro->calif1 || $maestro->calif2 || $maestro->calif3)
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -323,4 +364,68 @@
     </div>
 
 </div>
+
+{{-- ============================================
+     MODAL FLOTANTE: ASIGNAR SUSTITUTO
+     ============================================ --}}
+<div id="modalSustituto" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-60 backdrop-blur-sm transition-opacity">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden">
+        
+        {{-- Encabezado del Modal --}}
+        <div class="bg-teal-600 px-6 py-4 flex justify-between items-center text-white">
+            <h3 class="font-bold text-xl">Registrar Sustituto</h3>
+            <button onclick="document.getElementById('modalSustituto').classList.add('hidden')" class="text-white hover:text-gray-200 text-2xl leading-none font-bold">
+                &times;
+            </button>
+        </div>
+
+        {{-- Formulario --}}
+        <form action="{{ route('sustitutos.store', $maestro) }}" method="POST">
+            @csrf
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Nombre Completo del Sustituto *</label>
+                    <input type="text" name="nombre_completo" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">RFC (Opcional)</label>
+                    <input type="text" name="rfc" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Teléfono</label>
+                    <input type="text" name="telefono" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Fecha de Inicio *</label>
+                    <input type="date" name="fecha_inicio" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Fecha de Término *</label>
+                    <input type="date" name="fecha_termino" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Observaciones</label>
+                    <textarea name="observaciones" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500"></textarea>
+                </div>
+            </div>
+
+            {{-- Botones de Acción --}}
+            <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3 border-t">
+                <button type="button" onclick="document.getElementById('modalSustituto').classList.add('hidden')" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md font-bold hover:bg-gray-400 transition">
+                    Cancelar
+                </button>
+                <button type="submit" class="px-6 py-2 bg-teal-600 text-white rounded-md font-bold hover:bg-teal-700 shadow-md transition">
+                    💾 Guardar Sustituto
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 </x-app-layout>

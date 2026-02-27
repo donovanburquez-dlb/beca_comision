@@ -286,154 +286,52 @@ class MaestroController extends Controller
      * Redirección a la página de detalle del maestro
      */
     public function store(Request $request)
-    {
-        // ============================================
-        // VALIDACIÓN DE DATOS
-        // ============================================
-        
-        // validate() verifica que los datos cumplan las reglas
-        // Si algo falla, automáticamente regresa al formulario
-        // mostrando los errores
-        $validated = $request->validate([
-            // RFC
-            'rfc' => [
-                'required',       // Obligatorio
-                'string',         // Debe ser texto
-                'max:13',         // Máximo 13 caracteres
-                'unique:maestros' // Debe ser único en la tabla maestros
-            ],
-            
-            // CURP
-            'curp' => [
-                'required',
-                'string',
-                'max:18',
-                'unique:maestros'
-            ],
-            
-            // Apellidos
-            'apellido_paterno' => 'required|string|max:50',
-            'apellido_materno' => 'required|string|max:50',
-            
-            // Nombres
-            'nombres' => 'required|string|max:100',
-            
-            // Sexo (opcional)
-            // in:M,F significa que solo acepta 'M' o 'F'
-            // nullable significa que puede estar vacío
-            'sexo' => 'nullable|in:M,F',
-            
-            // Edad (opcional)
-            'edad' => 'nullable|integer|min:18|max:100',
-            
-            // Correo electrónico (opcional)
-            'correo_electronico' => 'nullable|email|max:150',
-            
-            // Teléfono (opcional)
-            'tel_particular' => 'nullable|string|max:15',
-            
-            // Nivel
-            'nivel' => 'nullable|string|max:100',
-            
-            // CCT
-            'cct' => 'nullable|string|max:15',
-            
-            // Adscripción
-            'adscripcion' => 'nullable|string|max:200',
-            
-            // Localidad
-            'localidad' => 'nullable|string|max:100',
-            
-            // Municipio
-            'municipio' => 'nullable|string|max:100',
-            
-            // Instituto (obligatorio)
-            'instituto' => 'required|string|max:200',
-            
-            // Programa de estudios
-            'realizar_estudios' => 'nullable|string',
-            
-            // Nivel académico
-            'nivel_academico' => 'nullable|string|max:100',
-            
-            // FECHAS (OBLIGATORIAS)
-            'fechini' => [
-                'required',       // Obligatorio
-                'date',          // Debe ser una fecha válida
-            ],
-            
-            'fechterm' => [
-                'required',
-                'date',
-                'after:fechini'  // Debe ser después de fechini
-            ],
-            
-            // Horas (opcional)
-            'horas' => 'nullable|integer|min:0|max:48',
-            
-            // Turno
-            'turno' => 'nullable|string|max:20',
-            
-            // Asignatura
-            'asignatura' => 'nullable|string|max:150',
-            
-            // País
-            'pais' => 'nullable|string|max:50',
-            
-            // Todos los demás campos opcionales
-            // Los incluimos para que puedan guardarse si vienen
-            'dom_particular' => 'nullable|string',
-            'no_nivel' => 'nullable|string|max:10',
-            'tel_adsc' => 'nullable|string|max:15',
-            'domicilio_ct' => 'nullable|string|max:250',
-            'tipo_funcion' => 'nullable|string|max:100',
-            'antiguedad_funcion' => 'nullable|string|max:50',
-            'antiguedad_ct' => 'nullable|string|max:50',
-            'tipo_plaza' => 'nullable|string|max:50',
-            'tipo_sostenimiento' => 'nullable|string|max:50',
-            'clave_categoria' => 'nullable|string|max:50',
-            'clave_plaza' => 'nullable|string|max:50',
-            'inst_nacion' => 'nullable|string|max:200',
-            'nombre_escuela_posgrado' => 'nullable|string|max:250',
-            'cct_escuela_posgrado' => 'nullable|string|max:20',
-            'clasificacion_reconocimiento' => 'nullable|string|max:100',
-            'perfil_aspirante' => 'nullable|string|max:200',
-            'periodicidad_programa' => 'nullable|string|max:50',
-            'periodo_duracion_modulo' => 'nullable|string|max:50',
-            'escolarizado' => 'nullable|boolean',
-            'observaciones' => 'nullable|string',
-        ]);
-        
-        // $validated ahora contiene solo los datos válidos
+{
+    // ============================================
+    // VALIDACIÓN INTEGRAL DE DATOS
+    // ============================================
+    $validated = $request->validate([
+        // Datos Personales
+        'rfc'                => 'required|string|max:13|unique:maestros',
+        'curp'               => 'required|string|max:18',
+        'apellido_paterno'   => 'required|string|max:50',
+        'apellido_materno'   => 'required|string|max:50',
+        'nombres'            => 'required|string|max:50',
+        'sexo'               => 'nullable|string|in:M,F',
+        'edad'               => 'nullable|integer',
+        'correo_electronico' => 'nullable|email|max:100',
+        'tel_particular'     => 'nullable|string|max:20',
+        'dom_particular'     => 'nullable|string',
 
-        // ============================================
-        // CREAR EL MAESTRO EN LA BASE DE DATOS
-        // ============================================
-        
-        // Maestro::create() crea un nuevo registro
-        // Recibe un array con los datos
-        // Retorna el modelo del maestro creado
-        $maestro = Maestro::create($validated);
-        
-        // En este punto, el maestro ya está guardado en la BD
-        // $maestro contiene el registro con su ID
+        // Datos de Adscripción (AQUÍ ESTÁ LA CLAVE)
+        'clave_plaza'        => 'nullable|string', // Antes se perdía porque no estaba aquí
+        'cct'                => 'nullable|string|max:15',
+        'nivel'              => 'nullable|string|max:50',
+        'adscripcion'        => 'nullable|string|max:255',
+        'turno'              => 'nullable|string|max:50',
+        'localidad'          => 'nullable|string|max:100',
+        'municipio'          => 'nullable|string|max:100',
+        'asignatura'         => 'nullable|string|max:100',
+        'horas'              => 'nullable|integer',
 
-        // ============================================
-        // REDIRECCIONAR CON MENSAJE DE ÉXITO
-        // ============================================
+        // Programa de estudios
+        'instituto'          => 'required|string|max:255',
+        'realizar_estudios'  => 'nullable|string',
+        'nivel_academico'    => 'nullable|string',
+        'pais'               => 'nullable|string|in:NACIONAL,EXTRANJERO',
         
-        // redirect()->route() redirige a una ruta nombrada
-        // 'maestros.show' es el nombre de la ruta para ver detalle
-        // $maestro se pasa como parámetro (será el ID)
-        // with() agrega un mensaje flash a la sesión
-        // El mensaje flash solo está disponible en la siguiente petición
-        return redirect()
-            ->route('maestros.show', $maestro)
-            ->with('success', 'Maestro registrado exitosamente');
-        
-        // El usuario será redirigido a /maestros/{id}
-        // Y verá un mensaje verde que dice "Maestro registrado exitosamente"
-    }
+        // Otros
+        'observaciones'      => 'nullable|string'
+    ]);
+
+    // Como ahora sí validamos TODOS los campos, 
+    // Laravel guardará la clave_plaza y demás sin problemas.
+    $maestro = Maestro::create($validated);
+
+    return redirect()
+        ->route('maestros.show', $maestro)
+        ->with('success', 'Maestro registrado exitosamente');
+}
 
     /**
      * ============================================

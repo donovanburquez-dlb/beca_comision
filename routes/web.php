@@ -54,6 +54,11 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('rol:Administrador,Coordinador,Capturista')
         ->name('maestros.update');
 
+    // Ruta para guardar sustitutos de un maestro específico
+    Route::post('/maestros/{maestro}/sustitutos', [App\Http\Controllers\SustitutoController::class, 'store'])
+        ->middleware('rol:Administrador,Coordinador,Capturista')
+        ->name('sustitutos.store');
+
     // Eliminar - Solo Administrador
     Route::delete('/maestros/{maestro}', [MaestroController::class, 'destroy'])
         ->middleware('rol:Administrador')

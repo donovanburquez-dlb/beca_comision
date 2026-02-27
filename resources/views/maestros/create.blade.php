@@ -636,29 +636,34 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {Object} datos - Objeto con los datos del personal
      */
     function llenarFormulario(datos) {
-        // Para cada campo, si existe un valor, lo asignamos
-        // El operador || asigna '' si el valor es null/undefined
-        
-        document.getElementById('curp').value = datos.curp || '';
-        document.getElementById('apellido_paterno').value = datos.apellido_paterno || '';
-        document.getElementById('apellido_materno').value = datos.apellido_materno || '';
-        document.getElementById('nombres').value = datos.nombres || '';
-        document.getElementById('sexo').value = datos.sexo || '';
-        document.getElementById('edad').value = datos.edad || '';
-        document.getElementById('correo_electronico').value = datos.correo || '';
-        document.getElementById('tel_particular').value = datos.tel_particular || '';
-        document.getElementById('dom_particular').value = datos.domicilio || '';
-        
-        // Datos de adscripción
-        document.getElementById('nivel').value = datos.nivel || '';
-        document.getElementById('cct').value = datos.cct || '';
-        document.getElementById('adscripcion').value = datos.centro_trabajo || '';
-        document.getElementById('localidad').value = datos.localidad || '';
-        document.getElementById('municipio').value = datos.municipio || '';
-        document.getElementById('turno').value = datos.turno || '';
-        document.getElementById('asignatura').value = datos.asignatura || '';
-        document.getElementById('horas').value = datos.horas || 0;
+    // Datos con nombres exactos (sin cambios)
+    document.getElementById('curp').value = datos.curp || '';
+    document.getElementById('nombres').value = datos.nombres || '';
+    document.getElementById('apellido_paterno').value = datos.apellido_paterno || '';
+    document.getElementById('apellido_materno').value = datos.apellido_materno || '';
+    document.getElementById('sexo').value = datos.sexo || '';
+    document.getElementById('edad').value = datos.edad || '';
+    document.getElementById('tel_particular').value = datos.tel_particular || '';
+    
+    // TRADUCCIONES CLAVE (El catálogo manda un nombre, pero el input HTML tiene otro)
+    document.getElementById('correo_electronico').value = datos.correo || '';
+    document.getElementById('dom_particular').value = datos.domicilio || '';
+    document.getElementById('adscripcion').value = datos.centro_trabajo || '';
+    
+    // Adscripción y plaza
+    document.getElementById('cct').value = datos.cct || '';
+    document.getElementById('nivel').value = datos.nivel || '';
+    document.getElementById('localidad').value = datos.localidad || '';
+    document.getElementById('municipio').value = datos.municipio || '';
+    document.getElementById('turno').value = datos.turno || '';
+    document.getElementById('asignatura').value = datos.asignatura || '';
+    document.getElementById('horas').value = datos.horas || 0;
+    
+    // Asegúrate de que el input en tu HTML de create.blade.php tenga id="clave_plaza"
+    if(document.getElementById('clave_plaza')) {
+        document.getElementById('clave_plaza').value = datos.clave_plaza || '';
     }
+}
     
     // ============================================
     // FUNCIÓN: MOSTRAR MENSAJE
